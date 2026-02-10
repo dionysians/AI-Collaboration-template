@@ -1,0 +1,56 @@
+# 资源元数据模板
+# 复制此文件到新资源目录并填写
+
+# ============ 基本信息 ============
+id: resource-id                       # 资源唯一标识（与目录名一致）
+name: Resource Name                   # 显示名称
+description: |                        # 简要描述
+  资源的详细描述...
+
+# ============ 分类信息 ============
+type: skill                           # 资源类型
+  # 可选值:
+  # - skill       Claude Code 技能
+  # - hook        生命周期钩子
+  # - command     斜杠命令
+  # - agent       Agent/Subagent 配置
+  # - mcp-server  MCP 服务器
+  # - prompt      提示词/规则文件
+  # - plugin      完整插件包
+  # - other       其他类型
+
+tools:                                # 适用的 AI 工具（可多选）
+  - claude-code
+  # 可选值:
+  # - claude-code
+  # - cursor
+  # - windsurf
+  # - copilot
+  # - continue
+  # - other
+
+# ============ 来源追踪 ============
+source:
+  type: github                        # 来源类型: github | official | blog | other
+  url: https://github.com/xxx/xxx     # 来源 URL
+  author: Author Name                 # 作者
+  license: MIT                        # 许可证（如果已知）
+  collected_at: 2026-01-26            # 收集日期
+
+# ============ 评估信息（可选）============
+evaluation:
+  quality: medium                     # 质量: high | medium | low
+  maturity: beta                      # 成熟度: production | beta | experimental
+  popularity: 0                       # 受欢迎程度（如 stars 数）
+  notes: |                            # 评价备注
+    评价说明...
+
+# ============ 标签 ============
+tags:
+  - tag1
+  - tag2
+
+# ============ 文件说明（可选）============
+files:
+  - name: example.md
+    description: 文件说明

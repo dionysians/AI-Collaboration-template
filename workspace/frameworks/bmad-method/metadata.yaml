@@ -1,0 +1,64 @@
+id: bmad-method
+name: BMAD-METHOD
+description: |
+  Breakthrough Method for Agile AI Driven Development -
+  一个 AI 驱动的敏捷开发框架，包含 10 个专业化 agents 和 31 个引导式工作流，
+  覆盖从想法到部署的完整软件开发生命周期。
+
+type: framework
+tools:
+  - claude-code
+  - cursor
+  - windsurf
+
+source:
+  type: github
+  url: https://github.com/bmad-code-org/BMAD-METHOD
+  author: BMad Code Organization
+  license: MIT
+  collected_at: 2026-01-26
+
+# 框架组成
+components:
+  agents: 10
+  workflows: 31
+  step_files: 200
+  data_templates: 5
+  team_configs: 2
+
+# 评估信息
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 31836
+  documentation: high
+  notes: |
+    - 非常成熟的框架，31K+ stars，活跃社区
+    - 完整的生命周期覆盖：分析→规划→设计→实现→测试
+    - 独特的"人类放大"理念，强调人机协作而非替代
+    - 两条灵活路径：快速流程(3步) vs 完整规划(6+阶段)
+    - 文档完善，有 Astro/Starlight 文档网站
+
+tags:
+  - agile
+  - methodology
+  - multi-agent
+  - workflow
+  - full-lifecycle
+  - production-ready
+
+# 关键特性
+features:
+  - name: 专业化 Agents
+    description: 10 个角色化智能体（PM、架构师、开发者、测试等）
+  - name: 结构化工作流
+    description: 31 个精心设计的工作流，step-file 架构
+  - name: Party Mode
+    description: 多智能体协作会议模式
+  - name: 规模自适应
+    description: 根据项目复杂度自动调整规划深度
+  - name: 双路径选择
+    description: 快速流程 vs 完整规划流程
+
+# 提取的组件
+extracted: []

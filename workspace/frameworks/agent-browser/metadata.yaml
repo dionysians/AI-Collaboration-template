@@ -1,0 +1,70 @@
+# 框架元数据
+# agent-browser - Vercel 的 AI 浏览器自动化工具
+
+# ============ 基本信息 ============
+id: agent-browser
+name: Agent Browser
+description: |
+  Headless browser automation CLI for AI agents.
+  Fast Rust CLI with Node.js fallback.
+  支持浏览器自动化、表单填写、截图、数据提取等功能。
+
+# ============ 分类信息 ============
+type: toolkit
+  # 可选值:
+  # - framework    集成化 AI 辅助开发框架
+  # - methodology  开发方法论
+  # - toolkit      工具集合
+
+tools:
+  - claude-code
+  # 可选值: claude-code | cursor | windsurf | copilot | continue | other
+
+# ============ 来源追踪 ============
+source:
+  type: github
+  url: https://github.com/vercel-labs/agent-browser
+  author: Vercel
+  license: Apache-2.0
+  collected_at: 2026-01-26
+
+# ============ 框架组成 ============
+components:
+  agents: 0
+  workflows: 0
+  prompts: 0
+  commands: 0
+  skills: 1
+  other:
+    - type: cli
+      count: 1
+      description: Browser automation CLI
+    - type: templates
+      count: 1
+      description: Skill templates
+
+# ============ 评估信息 ============
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 10632
+  documentation: high
+  notes: |
+    Vercel 官方出品的 AI 浏览器自动化工具
+    - Rust CLI 实现，性能优异
+    - 支持 Claude Code 插件集成
+    - 提供完整的浏览器操作命令
+    - 适合 AI Agent 进行网页交互
+
+# ============ 标签 ============
+tags:
+  - browser-automation
+  - cli
+  - ai-agent
+  - playwright
+  - vercel
+  - rust
+  - web-testing
+
+# ============ 提取的组件 ============
+extracted: []

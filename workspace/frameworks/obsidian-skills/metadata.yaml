@@ -1,0 +1,65 @@
+# 框架元数据
+# obsidian-skills - Agent Skills for Obsidian
+
+# ============ 基本信息 ============
+id: obsidian-skills
+name: Obsidian Skills
+description: |
+  Agent skills for use with Obsidian. Follows the Agent Skills specification
+  so they can be used by any skills-compatible agent, including Claude Code
+  and Codex CLI. Provides skills for creating and editing Obsidian-compatible
+  plain text files including Obsidian Flavored Markdown, Obsidian Bases, and
+  JSON Canvas formats.
+
+# ============ 分类信息 ============
+type: toolkit
+
+tools:
+  - claude-code
+  - other  # Codex CLI, any Agent Skills spec compatible agent
+
+# ============ 来源追踪 ============
+source:
+  type: github
+  url: https://github.com/kepano/obsidian-skills
+  author: kepano
+  license: MIT
+  collected_at: 2026-02-02
+
+# ============ 框架组成 ============
+components:
+  agents: 0
+  workflows: 0
+  prompts: 0
+  commands: 0
+  skills: 3
+  other:
+    - type: plugin-config
+      count: 2
+      description: .claude-plugin configuration files (plugin.json, marketplace.json)
+
+# ============ 评估信息 ============
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 8904
+  documentation: medium
+  notes: |
+    由 Obsidian 创始人 kepano 维护的官方 skills 插件。
+    遵循 Agent Skills 规范，具有良好的跨工具兼容性。
+    Stars 数量高（8900+），社区活跃度高。
+    作为 Obsidian 官方推荐的 AI 辅助编辑方案，质量可靠。
+
+# ============ 标签 ============
+tags:
+  - obsidian
+  - skills
+  - markdown
+  - json-canvas
+  - knowledge-management
+  - agent-skills
+  - claude-code
+  - codex
+
+# ============ 提取的组件 ============
+extracted: []

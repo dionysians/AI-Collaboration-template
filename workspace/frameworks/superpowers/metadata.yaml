@@ -1,0 +1,59 @@
+id: superpowers
+name: Superpowers
+description: |
+  An agentic skills framework & software development methodology that works.
+  一个实用的智能体技能框架和软件开发方法论，包含 14 个 skills、3 个 commands、1 个 agent 和 3 个 hooks。
+
+type: framework
+tools:
+  - claude-code
+
+source:
+  type: github
+  url: https://github.com/obra/superpowers
+  author: obra
+  license: MIT
+  collected_at: 2026-01-26
+
+# 框架组成
+components:
+  agents: 1
+  commands: 3
+  skills: 14
+  hooks: 3
+
+# 评估信息
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 36224
+  documentation: high
+  notes: |
+    - 非常受欢迎的框架，36K+ stars
+    - 专注于 Claude Code 的技能和方法论
+    - 包含实用的开发流程（TDD、代码审查、系统调试等）
+    - 支持并行 agent 和 worktree 工作流
+
+tags:
+  - methodology
+  - skills
+  - tdd
+  - code-review
+  - debugging
+  - claude-code
+
+# 关键特性
+features:
+  - name: Skill-Driven Development
+    description: 14 个精心设计的开发技能
+  - name: Code Review Workflow
+    description: 完整的代码审查流程
+  - name: TDD Support
+    description: 测试驱动开发支持
+  - name: Parallel Agents
+    description: 支持并行 agent 协作
+  - name: Git Worktrees
+    description: 利用 git worktree 实现并行开发
+
+# 提取的组件
+extracted: []

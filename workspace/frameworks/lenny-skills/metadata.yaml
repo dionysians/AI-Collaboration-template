@@ -1,0 +1,72 @@
+# Lenny Skills 框架元数据
+
+# ============ 基本信息 ============
+id: lenny-skills
+name: Lenny Skills
+description: |
+  86 个产品管理技能集合，提取自 Lenny's Podcast 297 期节目。
+  涵盖 11 个类别、3,275 条来自行业领袖的洞察（Stripe、Airbnb、Figma 等公司的建设者）。
+  支持通过 npx skills 安装到 Claude Code、Cursor 等 AI 助手中。
+
+# ============ 分类信息 ============
+type: toolkit
+tools:
+  - claude-code
+  - cursor
+
+# ============ 来源追踪 ============
+source:
+  type: github
+  url: https://github.com/RefoundAI/lenny-skills
+  author: RefoundAI
+  license: MIT
+  collected_at: 2026-02-02
+
+# ============ 框架组成 ============
+components:
+  agents: 0
+  workflows: 0
+  prompts: 0
+  commands: 0
+  skills: 86
+  other:
+    - "4 playbooks (Startup Founder, First-Time Manager, Product Manager, Growth Leader)"
+    - "11 categories"
+    - "3,275 insights from 297 episodes"
+
+# ============ 评估信息 ============
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 39
+  documentation: high
+  notes: |
+    独特的内容型技能库，将播客访谈中的产品管理智慧转化为可复用的 AI agent skills。
+    每个 skill 包含多位行业专家的观点参考。
+    覆盖产品管理全生命周期：从用户研究、PRD 编写到增长策略、团队管理。
+    通过 npx skills CLI 工具安装，支持全量或单个技能安装。
+
+# ============ 标签 ============
+tags:
+  - product-management
+  - ai-agents
+  - skills
+  - claude-code
+  - podcast
+  - lenny-rachitsky
+  - pm-tools
+  - leadership
+  - hiring
+  - growth
+  - strategy
+
+# ============ 关键特性 ============
+features:
+  - "86 个产品管理技能，覆盖 11 个类别"
+  - "每个技能包含多位行业专家的参考观点"
+  - "4 个角色 Playbook（创业者、新经理、PM、增长负责人）"
+  - "支持 npx skills CLI 全量或选择性安装"
+  - "兼容 Claude Code 和 Cursor"
+
+# ============ 提取的组件 ============
+extracted: []

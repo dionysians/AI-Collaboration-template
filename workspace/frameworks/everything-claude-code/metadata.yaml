@@ -1,0 +1,87 @@
+# 框架元数据
+# everything-claude-code - Anthropic Hackathon 冠军的完整 Claude Code 配置集合
+
+# ============ 基本信息 ============
+id: everything-claude-code
+name: Everything Claude Code
+description: |
+  Complete Claude Code configuration collection - agents, skills, hooks,
+  commands, rules, MCPs. Battle-tested configs from an Anthropic hackathon winner.
+  包含 10+ 个月实际产品开发中积累的生产级配置。
+
+# ============ 分类信息 ============
+type: framework
+  # 可选值:
+  # - framework    集成化 AI 辅助开发框架
+  # - methodology  开发方法论
+  # - toolkit      工具集合
+
+tools:
+  - claude-code
+  # 可选值: claude-code | cursor | windsurf | copilot | continue | other
+
+# ============ 来源追踪 ============
+source:
+  type: github
+  url: https://github.com/affaan-m/everything-claude-code
+  author: affaan-m
+  license: null  # 仓库未指定 license
+  collected_at: 2026-01-26
+
+# ============ 框架组成 ============
+components:
+  agents: 10
+    # architect, build-error-resolver, code-reviewer, database-reviewer,
+    # doc-updater, e2e-runner, planner, refactor-cleaner, security-reviewer, tdd-guide
+  workflows: 0
+  prompts: 0
+  commands: 15
+    # build-fix, checkpoint, code-review, e2e, eval, learn, orchestrate,
+    # plan, refactor-clean, setup-pm, tdd, test-coverage, update-codemaps, update-docs, verify
+  skills: 14
+    # backend-patterns, clickhouse-io, coding-standards, continuous-learning,
+    # continuous-learning-v2, eval-harness, frontend-patterns, iterative-retrieval,
+    # postgres-patterns, project-guidelines-example, security-review, strategic-compact,
+    # tdd-workflow, verification-loop
+  rules: 8
+    # agents, coding-style, git-workflow, hooks, patterns, performance, security, testing
+  hooks: 1
+    # hooks.json - 包含多个 hook 定义
+  other:
+    - type: mcp-configs
+      count: 1
+      description: MCP 服务器配置示例
+    - type: contexts
+      count: 1
+      description: 上下文配置
+    - type: examples
+      count: 1
+      description: 示例配置
+
+# ============ 评估信息 ============
+evaluation:
+  quality: high
+  maturity: production
+  popularity: 29959
+  documentation: high
+  notes: |
+    Anthropic Hackathon 冠军作品
+    - 经过 10+ 个月实际产品开发验证
+    - 跨平台支持 (Windows, macOS, Linux)
+    - 包含完整的 token 优化、记忆持久化、持续学习等高级功能
+    - 有详细的配套指南（Shorthand Guide + Longform Guide）
+    - 社区活跃度极高（近 3 万 stars）
+
+# ============ 标签 ============
+tags:
+  - claude-code
+  - ai-agents
+  - mcp
+  - productivity
+  - developer-tools
+  - hackathon-winner
+  - production-ready
+  - cross-platform
+
+# ============ 提取的组件 ============
+extracted: []

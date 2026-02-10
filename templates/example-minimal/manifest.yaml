@@ -1,0 +1,21 @@
+id: example-minimal
+name: Example Minimal
+description: |
+  示例：最小化的 Claude Code 配置模板，
+  包含基础的项目规则和一个示例命令。
+
+tools:
+  - claude-code
+
+tags:
+  - example
+  - minimal
+
+version: 1.0.0
+updated_at: 2026-01-26
+
+includes:
+  - path: CLAUDE.md
+    description: 项目规则文件
+  - path: .claude/commands/
+    description: 自定义命令

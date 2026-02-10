@@ -1,0 +1,8 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+
+# Cloned repos (reference only, not part of this project)
+workspace/_repos/

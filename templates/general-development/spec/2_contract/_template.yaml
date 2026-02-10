@@ -1,0 +1,79 @@
+# Contract Spec Template
+# 存放位置: spec/2_contract/v{Version}/api-{domain}.yaml
+#
+# 三种契约类型：
+#   - API Contract:   api-{domain}.yaml     → 放在 v1/, v2/ 下
+#   - Event Contract: {domain}.{event}.yaml  → 放在 events/ 下
+#   - Data Schema:    schema-{name}.yaml     → 放在 v1/, v2/ 下
+#
+# 规则:
+#   - Breaking change MUST 创建新版本目录 (v2, v3)
+#   - 历史版本 MUST NOT 修改
+#   - 字段类型、可空性、约束 MUST 明确定义
+
+# === API Contract 模板 ===
+
+version: v1
+endpoint: /resource/action
+method: POST
+
+tags:
+  - domain-name
+
+request:
+  type: object
+  required:
+    - field_a
+  properties:
+    field_a:
+      type: string
+      description: 字段描述
+    field_b:
+      type: number
+      description: 字段描述
+
+response:
+  type: object
+  properties:
+    id:
+      type: string
+    status:
+      type: string
+
+errors:
+  - code: RESOURCE_INVALID
+    message: Invalid request.
+  - code: RESOURCE_NOT_FOUND
+    message: Resource not found.
+
+# === Event Contract 模板 ===
+# event: domain.event_name
+# version: v1
+# description: 事件触发条件描述
+#
+# data:
+#   type: object
+#   required:
+#     - id
+#   properties:
+#     id:
+#       type: string
+#     created_at:
+#       type: string
+#       format: date-time
+#
+# metadata:
+#   idempotent: true
+#   delivery_guarantee: at-least-once
+
+# === Data Schema 模板 ===
+# version: v1
+# name: schema_name
+#
+# definition:
+#   type: object
+#   required:
+#     - id
+#   properties:
+#     id:
+#       type: string

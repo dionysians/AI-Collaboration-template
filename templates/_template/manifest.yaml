@@ -1,0 +1,32 @@
+# 模板清单文件
+# 复制此文件到新模板目录并填写
+
+# ============ 基本信息 ============
+id: template-id                       # 模板唯一标识（与目录名一致）
+name: Template Name                   # 显示名称
+description: |                        # 模板描述
+  这个模板适用于...
+
+# ============ 适用工具 ============
+tools:                                # 此模板包含哪些工具的配置
+  - claude-code
+  - cursor
+  # 可选值: claude-code | cursor | windsurf | copilot | continue
+
+# ============ 标签 ============
+tags:
+  - frontend
+  - react
+
+# ============ 版本信息（可选）============
+version: 1.0.0
+updated_at: 2026-01-26
+
+# ============ 包含内容说明 ============
+includes:
+  - path: .claude/
+    description: Claude Code 配置
+  - path: .cursor/
+    description: Cursor 配置
+  - path: CLAUDE.md
+    description: 项目规则文件

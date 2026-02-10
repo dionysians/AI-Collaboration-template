@@ -1,0 +1,32 @@
+id: example-commit-skill
+name: Example Commit Skill
+description: |
+  示例：一个简单的 git commit 辅助 skill，
+  帮助生成规范的 commit message。
+
+type: skill
+tools:
+  - claude-code
+
+source:
+  type: github
+  url: https://github.com/example/commit-skill
+  author: Example Author
+  license: MIT
+  collected_at: 2026-01-26
+
+evaluation:
+  quality: medium
+  maturity: experimental
+  popularity: 0
+  notes: |
+    这是一个示例资源，用于演示 workspace 的使用方式。
+
+tags:
+  - git
+  - commit
+  - example
+
+files:
+  - name: commit.md
+    description: commit message 生成 skill
