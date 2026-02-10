@@ -23,20 +23,51 @@ AI 编程工具配置模板管理项目。
 └── .claude/                # 本项目的 Claude 配置
 ```
 
-## 使用方法
+## 快速开始
 
 ### 安装模板到项目
+
+**当前推荐方式**（直接从 GitHub 拉取）：
+
+```bash
+# 在目标项目目录下执行
+npx degit dionysians/AI-Collaboration-template/templates/general-development
+```
+
+这会将 `general-development` 模板的所有文件（`.claude/`、`CLAUDE.md`、`spec/`、`docs/`）安装到当前目录。
+
+**原理**：`degit` 从 GitHub 仓库提取指定子目录的最新快照，不带 git 历史，直接铺到当前目录。
+
+---
+
+### 未来多模板方案
+
+当模板数量增加（3+ 个）时，将启用 CLI 工具提供交互式体验：
 
 ```bash
 # 交互式选择模板
 npx ai-collab-template init
 
 # 指定模板
-npx ai-collab-template init --template frontend-react
+npx ai-collab-template init --template general-development
 
 # 列出可用模板
 npx ai-collab-template list
 ```
+
+CLI 工具代码已就绪（见 [cli/](cli/)），将在模板丰富后发布到 npm。
+
+---
+
+### 可用模板
+
+| 模板 | 版本 | 说明 | 安装命令 |
+|------|------|------|----------|
+| [general-development](templates/general-development/) | v1.2.0 | 通用开发模板<br/>融合 everything-claude-code + Superpowers + BMAD-METHOD + Spec 体系 | `npx degit dionysians/AI-Collaboration-template/templates/general-development` |
+
+详见 [templates/README.md](templates/README.md)
+
+---
 
 ### 工作台使用
 
@@ -146,10 +177,11 @@ frameworks/
 
 ### 其他待办
 
+- [x] 输出第一个成品模板到 `templates/` — ✅ general-development v1.2.0 已完成
+- [x] 实现 `cli/` 中的 CLI 工具 — ✅ 已实现，待模板丰富后发布 npm
 - [ ] 完成 workspace 中已收集框架的组件提取（`extracted/` 目录均为空）
-- [ ] 输出第一个成品模板到 `templates/`
-- [ ] 实现 `cli/` 中的 CLI 工具
 - [ ] 补充 Cursor、Windsurf 等工具的配置规范调研
+- [ ] 创建更多领域专用模板（frontend-react、backend-node、fullstack 等）
 
 ---
 
