@@ -58,16 +58,62 @@ sources:
 includes:
   - path: CLAUDE.md
     description: 项目规则主文件（唯一必读）
+  - path: OVERVIEW.md
+    description: 模板结构化概览（/template-info 数据源）
   - path: .claude/settings.json
-    description: Hooks 配置
+    description: Hooks 配置（5 hooks）
   - path: .claude/rules/
-    description: 基础规范（coding-style, testing, security, git-workflow）
+    description: 基础规范（4 rules）
+    items:
+      - name: coding-style
+        description: 代码风格：不可变性、函数 ≤50 行、文件 ≤800 行
+      - name: testing
+        description: 测试规范：TDD 强制、覆盖率 ≥80%
+      - name: security
+        description: 安全规范：密钥管理、输入验证、注入防护
+      - name: git-workflow
+        description: Git 约定：commit 格式、分支命名
   - path: .claude/skills/
-    description: 工作流引擎（story-execution, verification-loop, systematic-debugging）
+    description: 工作流引擎（3 skills）
+    items:
+      - name: story-execution
+        description: Story 执行引擎：动态 Task 拆解 + TDD
+      - name: systematic-debugging
+        description: 四阶段系统调试
+      - name: verification-loop
+        description: 8 阶段验证循环
   - path: .claude/commands/
-    description: 用户命令（clarify, architecture, plan, spike, feature, bugfix, hotfix, review, verify, decide, pivot）
+    description: 用户命令（11 commands）
+    items:
+      - name: feature
+        description: 完整功能开发（全管线编排器）
+      - name: clarify
+        description: 需求澄清 → PRD
+      - name: architecture
+        description: 交互式生成 Spec 四层级体系
+      - name: plan
+        description: 调用 planner 创建实现计划
+      - name: review
+        description: 两阶段代码审查
+      - name: verify
+        description: 完整验证循环
+      - name: bugfix
+        description: 系统化 Bug 修复
+      - name: hotfix
+        description: 紧急修复
+      - name: spike
+        description: 探索验证
+      - name: decide
+        description: 架构决策 ADR
+      - name: pivot
+        description: 方向调整
   - path: .claude/agents/
-    description: 专业化 Agent（planner, code-reviewer）
+    description: 专业化 Agent（2 agents）
+    items:
+      - name: planner
+        description: 规划专家（Quick/Full 双模式，Spec 感知）
+      - name: code-reviewer
+        description: 两阶段代码审查（规格合规 + 代码质量）
   - path: docs/plans/
     description: 实现计划 + PRD 输出目录
   - path: spec/

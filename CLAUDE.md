@@ -39,6 +39,8 @@ AI 编程工具配置模板管理项目。收集、分析各类 AI 编程框架�
 | `compare` | 对比多个资源/框架的异同 |
 | `search` | 搜索已收集的资源 |
 | `gen-index` | 生成 workspace 索引 |
+| `template-info` | 渐进式查看模板信息（overview → composition → workflow → 组件详情） |
+| `template-sync` | 模板维护（init 脚手架 / sync 同步文档 / validate 校验规范） |
 
 ## 支持的 AI 工具
 
