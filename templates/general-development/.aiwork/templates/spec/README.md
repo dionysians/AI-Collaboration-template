@@ -4,7 +4,7 @@
 
 ## 启用方式
 
-执行 `/architecture` 命令，会自动初始化目录结构并交互式生成 Spec。
+执行 `/architecture` 命令，会读取本目录（`.aiwork/templates/spec/`）的模板，在项目根目录创建 `spec/` 结构并交互式生成 Spec。
 
 ## 四层级定义
 
@@ -24,35 +24,40 @@ Level 4 — Flow Spec         → 定义流程（Scenario / Story / Test Driver�
 
 ## 目录结构
 
+模板文件（位于 `.aiwork/templates/spec/`）：
+```
+.aiwork/templates/spec/
+├── 0_project/_template.md     # Project Spec 模板
+├── 1_domain/_template.md      # Domain Spec 模板
+├── 2_contract/_template.yaml  # Contract Spec 模板
+├── 3_flow/_template.md        # Flow Spec 模板
+├── adr/_template.md           # ADR 模板
+└── README.md                  # 本文件
+```
+
+运行时目录（由 `/architecture` 按需创建）：
 ```
 spec/
 ├── 0_project/              # Level 1: 顶层规格（世界观）
-│   ├── _template.md        # 模板
-│   └── project-spec.md     # 项目规格（使用后创建）
+│   └── project-spec.md     # 项目规格
 │
 ├── 1_domain/               # Level 2: 领域规格（行为模型）
-│   ├── _template.md        # 模板
 │   ├── user-domain.md      # 示例
 │   └── order-domain.md     # 示例
 │
 ├── 2_contract/             # Level 3: 契约（API / Event / Data）
-│   ├── _template.yaml      # 模板
 │   ├── v1/                 # 版本 1
 │   │   └── api-{name}.yaml
 │   ├── v2/                 # 版本 2（breaking change 时创建）
 │   └── events/             # 事件契约
 │
 ├── 3_flow/                 # Level 4: 流程规格（场景 / 测试）
-│   ├── _template.md        # 模板
 │   ├── iteration_01/       # 第 1 次迭代
 │   │   └── {name}-flow.md
 │   └── iteration_02/       # 第 2 次迭代（新增，不覆盖）
 │
-├── adr/                    # 架构决策记录
-│   ├── _template.md        # 模板
-│   └── NNNN-{title}.md     # ADR 文件
-│
-└── README.md               # 本文件
+└── adr/                    # 架构决策记录
+    └── NNNN-{title}.md     # ADR 文件
 ```
 
 ## 层级规则

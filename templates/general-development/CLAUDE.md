@@ -62,7 +62,7 @@
 | Flow Spec | `spec/3_flow/iteration_01/` | Given/When/Then 场景 |
 | ADR | `spec/adr/` | 架构决策记录 |
 
-详见 `spec/README.md`。
+`spec/` 目录由 `/architecture` 按需创建。模板文件位于 `.aiwork/templates/spec/`，详见 `.aiwork/templates/spec/README.md`。
 
 ## 核心原则
 

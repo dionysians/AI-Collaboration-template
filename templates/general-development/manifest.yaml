@@ -58,8 +58,12 @@ sources:
 includes:
   - path: CLAUDE.md
     description: 项目规则主文件（唯一必读）
-  - path: OVERVIEW.md
+  - path: .aiwork/OVERVIEW.md
     description: 模板结构化概览（/template-info 数据源）
+  - path: .aiwork/templates/spec/
+    description: Spec 模板文件（/architecture 按需创建 spec/ 时的格式参考）
+  - path: .aiwork/docs/decisions/
+    description: 模板设计决策文档
   - path: .claude/settings.json
     description: Hooks 配置（5 hooks）
   - path: .claude/rules/
@@ -114,17 +118,6 @@ includes:
         description: 规划专家（Quick/Full 双模式，Spec 感知）
       - name: code-reviewer
         description: 两阶段代码审查（规格合规 + 代码质量）
-  - path: docs/plans/
-    description: 实现计划 + PRD 输出目录
-  - path: spec/
-    description: 四层级 Spec 体系（可选，/architecture 启用）
-  - path: spec/0_project/_template.md
-    description: Project Spec 模板
-  - path: spec/1_domain/_template.md
-    description: Domain Spec 模板
-  - path: spec/2_contract/_template.yaml
-    description: Contract Spec 模板
-  - path: spec/3_flow/_template.md
-    description: Flow Spec 模板
-  - path: spec/adr/_template.md
-    description: ADR 模板
+  # 以下目录由命令按需创建（不随模板安装）：
+  # - docs/plans/    — /clarify 和 /plan 按需创建
+  # - spec/          — /architecture 按需创建

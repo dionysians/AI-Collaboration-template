@@ -52,7 +52,7 @@
 
 交互式生成 PRD，用户可以讨论、调整，直到满意。
 
-**输出位置**: `docs/plans/prd-<feature>.md`
+**输出位置**: `docs/plans/prd-<feature>.md`（目录不存在时自动创建）
 
 ### PRD 格式
 

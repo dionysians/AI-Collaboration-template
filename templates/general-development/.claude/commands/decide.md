@@ -46,7 +46,7 @@
 
 1. **自动编号**: 扫描 `spec/adr/` 下的现有文件，取最大编号 +1
 2. **文件名**: `spec/adr/NNNN-{title}.md`（标题小写、连字符分隔）
-3. **模板**: 使用 `spec/adr/_template.md`
+3. **模板**: 使用 `.aiwork/templates/spec/adr/_template.md`
 
 向用户展示生成的 ADR 内容，确认后写入文件。
 用户确认后将状态标记为 Accepted。

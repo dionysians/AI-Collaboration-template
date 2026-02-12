@@ -18,23 +18,20 @@
 ### Step 0: 环境初始化
 
 检查 `spec/` 目录是否存在：
-- **不存在** → 自动创建 Spec 目录结构（含模板文件）：
+- **不存在** → 自动创建 Spec 目录结构：
 
 ```
 spec/
 ├── 0_project/         # Level 1: 顶层规格（世界观）
-│   └── _template.md
 ├── 1_domain/          # Level 2: 领域规格（行为模型）
-│   └── _template.md
 ├── 2_contract/        # Level 3: 契约（API / Event / Data）
-│   ├── v1/
-│   └── _template.yaml
+│   └── v1/
 ├── 3_flow/            # Level 4: 流程规格（场景 / 测试）
-│   ├── iteration_01/
-│   └── _template.md
+│   └── iteration_01/
 └── adr/               # 架构决策记录
-    └── _template.md
 ```
+
+读取 `.aiwork/templates/spec/` 中的模板文件作为各层级的格式参考。
 
 - **已存在** → 读取现有 Spec，在此基础上更新
 

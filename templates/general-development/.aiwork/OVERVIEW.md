@@ -84,7 +84,7 @@
 | Flow Spec | `spec/3_flow/` | Given/When/Then 场景 |
 | ADR | `spec/adr/` | 架构决策记录 |
 
-每个目录内含 `_template.md`（或 `.yaml`）模板文件。详见 `spec/README.md`。
+模板文件位于 `.aiwork/templates/spec/`，`spec/` 目录由 `/architecture` 按需创建。详见 `.aiwork/templates/spec/README.md`。
 
 ## Workflow
 
