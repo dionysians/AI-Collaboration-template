@@ -25,9 +25,52 @@ AI 编程工具配置模板管理项目。收集、分析各类 AI 编程框架�
 
 ## 已有模板
 
+<!-- AUTO:templates -->
 | 模板 | 版本 | 说明 |
 |------|------|------|
-| `general-development` | v1.2.0 | 通用开发模板，融合 everything-claude-code + Superpowers + BMAD-METHOD + Spec 体系 |
+| `example-minimal` | v1.0.0 | 示例：最小化的 Claude Code 配置模板 |
+| `general-development` | v1.2.0 | 通用项目开发模板，融合了三大框架的最佳实践 |
+<!-- /AUTO:templates -->
+
+### general-development 组件清单
+
+<!-- AUTO:template-components:general-development -->
+| 层 | 路径 | 组件 |
+|----|------|------|
+| 项目规则主文件（唯一必读） | `CLAUDE.md` | - |
+| 模板结构化概览（/template-info 数据源） | `.aiwork/OVERVIEW.md` | - |
+| Spec 模板文件（/architecture 按需创建 spec/ 时的格式参考） | `.aiwork/templates/spec/` | - |
+| 模板设计决策文档 | `.aiwork/docs/decisions/` | - |
+| Hooks 配置（5 hooks） | `.claude/settings.json` | - |
+| 基础规范（4 rules） | `.claude/rules/` | coding-style, testing, security, git-workflow |
+| 工作流引擎（3 skills） | `.claude/skills/` | story-execution, systematic-debugging, verification-loop |
+| 用户命令（11 commands） | `.claude/commands/` | feature, clarify, architecture, plan, review, verify, bugfix, hotfix, spike, decide, pivot |
+| 专业化 Agent（2 agents） | `.claude/agents/` | planner, code-reviewer |
+<!-- /AUTO:template-components:general-development -->
+
+### general-development 设计来源
+
+<!-- AUTO:template-sources:general-development -->
+| 来源 | 借鉴内容 |
+|------|----------|
+| everything-claude-code | agents/hooks/rules/skills 配置体系, Hooks 内联 Node.js 模式, 代码审查分级 (CRITICAL/HIGH/MEDIUM/LOW) |
+| superpowers | Iron Laws (测试先行/根因调查/验证后声称), TDD 强制 (RED-GREEN-REFACTOR), 系统化调试四阶段, 两阶段审查 (规格合规 + 代码质量) |
+| bmad-method | Epic → Story → AC 结构化规划, Story 验收标准 (Given/When/Then), Story 执行引擎 (dev-story workflow), Definition of Done |
+| spec-doc-guideline | 四层级 Spec 体系 (Project/Domain/Contract/Flow), Spec 更新原则 (原地更新/版本化/按迭代新增), ADR 与 Spec 集成, Evolution Log / Timeline |
+<!-- /AUTO:template-sources:general-development -->
+
+## Workspace 框架概览
+
+<!-- AUTO:workspace-summary -->
+| 框架 | 类型 | 核心价值 | Stars | 用于模板 |
+|------|------|---------|-------|----------|
+| Agent Browser | Toolkit | Headless browser automation CLI for AI agents | 10.6k | - |
+| BMAD-METHOD | Framework | Breakthrough Method for Agile AI Driven… | 31.8k | general-development |
+| Everything Claude Code | Framework | Complete Claude Code configuration collection -… | 30k | general-development |
+| Lenny Skills | Toolkit | 86 个产品管理技能集合，提取自 Lenny's Podcast 297 期节目 | 39 | - |
+| Obsidian Skills | Toolkit | Agent skills for use with Obsidian. Follows the… | 8.9k | - |
+| Superpowers | Framework | An agentic skills framework & software development… | 36.2k | general-development |
+<!-- /AUTO:workspace-summary -->
 
 ## Skills（本项目自用）
 

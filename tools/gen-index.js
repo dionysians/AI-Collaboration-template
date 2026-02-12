@@ -2,7 +2,8 @@
 
 /**
  * 索引生成脚本
- * 从 workspace/resources 和 workspace/frameworks 中读取所有 metadata.yaml，生成索引文件
+ * 1. 从 workspace/ 读取 metadata.yaml，生成 workspace/indexes/ 索引文件
+ * 2. 从 templates/ 读取 manifest.yaml，生成 CLAUDE.md 中的 AUTO 区块
  */
 
 import fs from 'fs';
@@ -13,9 +14,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const RESOURCES_DIR = path.resolve(__dirname, '../workspace/resources');
-const FRAMEWORKS_DIR = path.resolve(__dirname, '../workspace/frameworks');
-const INDEXES_DIR = path.resolve(__dirname, '../workspace/indexes');
+const ROOT_DIR = path.resolve(__dirname, '..');
+const RESOURCES_DIR = path.resolve(ROOT_DIR, 'workspace/resources');
+const FRAMEWORKS_DIR = path.resolve(ROOT_DIR, 'workspace/frameworks');
+const TEMPLATES_DIR = path.resolve(ROOT_DIR, 'templates');
+const INDEXES_DIR = path.resolve(ROOT_DIR, 'workspace/indexes');
+const CLAUDE_MD = path.resolve(ROOT_DIR, 'CLAUDE.md');
 
 async function main() {
   // 确保索引目录存在
@@ -34,10 +38,17 @@ async function main() {
   // 合并所有条目
   const allItems = [...resources, ...frameworks];
 
-  // 生成索引
+  // 生成 workspace 索引
   generateByTypeIndex(allItems);
   generateByToolIndex(allItems);
   generateBySourceIndex(allItems);
+
+  // 读取模板 manifest，生成 CLAUDE.md AUTO 区块
+  const manifests = readTemplateManifests();
+  console.log(`\n找到 ${manifests.length} 个模板`);
+
+  const autoBlocks = generateAutoBlocks(allItems, manifests);
+  injectIntoCLAUDEmd(autoBlocks);
 
   console.log('\n索引生成完成!');
 }
@@ -223,6 +234,179 @@ function generateBySourceIndex(items) {
 
   fs.writeFileSync(path.join(INDEXES_DIR, 'by-source.md'), content);
   console.log('✓ by-source.md');
+}
+
+// ============ CLAUDE.md AUTO 区块 ============
+
+function readTemplateManifests() {
+  const manifests = [];
+
+  if (!fs.existsSync(TEMPLATES_DIR)) return manifests;
+
+  const dirs = fs.readdirSync(TEMPLATES_DIR);
+  for (const subdir of dirs) {
+    if (subdir.startsWith('_') || subdir.startsWith('.')) continue;
+
+    const manifestPath = path.join(TEMPLATES_DIR, subdir, 'manifest.yaml');
+    if (fs.existsSync(manifestPath)) {
+      try {
+        const content = fs.readFileSync(manifestPath, 'utf-8');
+        const manifest = yaml.parse(content);
+        manifests.push({ ...manifest, _dir: subdir });
+      } catch (err) {
+        console.warn(`警告: 解析 ${subdir}/manifest.yaml 失败:`, err.message);
+      }
+    }
+  }
+
+  return manifests;
+}
+
+function generateAutoBlocks(allItems, manifests) {
+  const blocks = {};
+
+  // --- templates 总表 ---
+  let tpl = '| 模板 | 版本 | 说明 |\n';
+  tpl += '|------|------|------|\n';
+  for (const m of manifests) {
+    const desc = firstLine(m.description);
+    tpl += `| \`${m.id}\` | v${m.version} | ${desc} |\n`;
+  }
+  blocks['templates'] = tpl;
+
+  // --- 每个模板的 components 和 sources ---
+  for (const m of manifests) {
+    // 组件清单
+    blocks[`template-components:${m.id}`] = generateComponentsTable(m);
+    // 设计来源
+    blocks[`template-sources:${m.id}`] = generateSourcesTable(m);
+  }
+
+  // --- workspace-summary ---
+  // 收集所有模板引用的框架 id
+  const usedByTemplate = {};
+  for (const m of manifests) {
+    for (const src of (m.sources || [])) {
+      const fwId = src.framework || src.reference;
+      if (fwId) {
+        if (!usedByTemplate[fwId]) usedByTemplate[fwId] = [];
+        usedByTemplate[fwId].push(m.id);
+      }
+    }
+  }
+
+  let ws = '| 框架 | 类型 | 核心价值 | Stars | 用于模板 |\n';
+  ws += '|------|------|---------|-------|----------|\n';
+
+  // 只处理 framework 类型的 items
+  const frameworkItems = allItems.filter(i => i._category === 'framework');
+  for (const item of frameworkItems) {
+    const name = item.name || item.id;
+    const type = capitalize(item.type || 'other');
+    const shortDesc = truncate(firstLine(item.description), 50);
+    const stars = item.evaluation?.popularity
+      ? formatNumber(item.evaluation.popularity)
+      : '-';
+    const usedIn = usedByTemplate[item.id]
+      ? usedByTemplate[item.id].join(', ')
+      : '-';
+    ws += `| ${name} | ${type} | ${shortDesc} | ${stars} | ${usedIn} |\n`;
+  }
+  blocks['workspace-summary'] = ws;
+
+  return blocks;
+}
+
+function generateComponentsTable(manifest) {
+  const includes = manifest.includes || [];
+  let table = '| 层 | 路径 | 组件 |\n';
+  table += '|----|------|------|\n';
+
+  for (const inc of includes) {
+    const p = `\`${inc.path}\``;
+    if (inc.items && inc.items.length > 0) {
+      const names = inc.items.map(i => i.name).join(', ');
+      table += `| ${inc.description} | ${p} | ${names} |\n`;
+    } else {
+      table += `| ${inc.description} | ${p} | - |\n`;
+    }
+  }
+
+  return table;
+}
+
+function generateSourcesTable(manifest) {
+  const sources = manifest.sources || [];
+  if (sources.length === 0) return '*无设计来源信息*\n';
+
+  let table = '| 来源 | 借鉴内容 |\n';
+  table += '|------|----------|\n';
+
+  for (const src of sources) {
+    const name = src.framework || src.reference || 'unknown';
+    const borrowed = (src.borrowed || []).join(', ');
+    table += `| ${name} | ${borrowed} |\n`;
+  }
+
+  return table;
+}
+
+function injectIntoCLAUDEmd(blocks) {
+  if (!fs.existsSync(CLAUDE_MD)) {
+    console.warn('警告: CLAUDE.md 不存在，跳过 AUTO 区块注入');
+    return;
+  }
+
+  let content = fs.readFileSync(CLAUDE_MD, 'utf-8');
+  let injected = 0;
+
+  for (const [id, blockContent] of Object.entries(blocks)) {
+    // 匹配 <!-- AUTO:{id} --> ... <!-- /AUTO:{id} -->
+    const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(
+      `(<!-- AUTO:${escaped} -->)\\n[\\s\\S]*?(<!-- /AUTO:${escaped} -->)`,
+      'g'
+    );
+
+    if (regex.test(content)) {
+      content = content.replace(
+        new RegExp(
+          `(<!-- AUTO:${escaped} -->)\\n[\\s\\S]*?(<!-- /AUTO:${escaped} -->)`,
+          'g'
+        ),
+        `$1\n${blockContent}$2`
+      );
+      injected++;
+    } else {
+      console.warn(`警告: CLAUDE.md 中未找到 AUTO:${id} 区块`);
+    }
+  }
+
+  fs.writeFileSync(CLAUDE_MD, content);
+  console.log(`✓ CLAUDE.md（注入 ${injected} 个 AUTO 区块）`);
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function formatNumber(num) {
+  if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return String(num);
+}
+
+/** 取 description 第一行，清理末尾标点 */
+function firstLine(desc) {
+  return (desc || '').split('\n')[0].trim().replace(/[，,：:；;。.、]$/, '');
+}
+
+/** 截断到 maxLen，在单词/标点边界截断 */
+function truncate(str, maxLen) {
+  if (str.length <= maxLen) return str;
+  // 尝试在最近的空格或标点处截断
+  const cut = str.lastIndexOf(' ', maxLen);
+  const pos = cut > maxLen * 0.6 ? cut : maxLen;
+  return str.substring(0, pos) + '…';
 }
 
 main().catch(console.error);

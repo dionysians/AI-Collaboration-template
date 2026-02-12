@@ -27,16 +27,30 @@ AI 编程工具配置模板管理项目。
 
 ### 安装模板到项目
 
-**当前推荐方式**（直接从 GitHub 拉取）：
+**方式 1：空项目直接安装**
 
 ```bash
-# 在目标项目目录下执行
+# 在空目录下执行
 npx degit dionysians/AI-Collaboration-template/templates/general-development
+```
+
+**方式 2：已有项目安装（推荐）**
+
+```bash
+# 在已有项目根目录执行（下载到临时目录 → 拷贝 → 清理）
+npx degit dionysians/AI-Collaboration-template/templates/general-development _tpl && cp -r _tpl/. . && rm -rf _tpl
+```
+
+如果想保护已有同名文件不被覆盖：
+
+```bash
+# 使用 -n (no clobber) 参数
+npx degit dionysians/AI-Collaboration-template/templates/general-development _tpl && cp -rn _tpl/. . && rm -rf _tpl
 ```
 
 这会将 `general-development` 模板的所有文件（`.claude/`、`CLAUDE.md`、`spec/`、`docs/`）安装到当前目录。
 
-**原理**：`degit` 从 GitHub 仓库提取指定子目录的最新快照，不带 git 历史，直接铺到当前目录。
+**原理**：`degit` 从 GitHub 仓库提取指定子目录的最新快照，不带 git 历史。方式 1 要求目标目录为空，方式 2 通过临时目录绕过此限制。
 
 ---
 
@@ -149,6 +163,33 @@ frameworks/
      ↓
 整合精炼到 templates/ 输出成品模板
 ```
+
+---
+
+## 索引维护
+
+项目使用 `node tools/gen-index.js` 自动生成索引，保持文档与实际文件同步。
+
+### 自动触发
+
+索引更新已集成到日常工作流的 Skill 中，无需手动运行：
+
+| 触发场景 | 触发方式 | 说明 |
+|----------|---------|------|
+| 收集新框架/资源 | `/collect` skill 末尾自动调用 | 新增 workspace 条目后更新索引 |
+| 修改模板组件 | `/template-sync sync` 末尾自动调用 | 同步 manifest 后更新索引 |
+| 初始化新模板 | `/template-sync init` 末尾自动调用 | 新模板注册到索引 |
+
+如需手动运行：`node tools/gen-index.js`
+
+### 生成范围
+
+| 输出位置 | 内容 | 数据源 |
+|----------|------|--------|
+| `workspace/indexes/` | 按类型/工具/来源分组索引 | `workspace/*/metadata.yaml` |
+| `CLAUDE.md` AUTO 区块 | 模板清单、组件、溯源、框架概览 | `templates/*/manifest.yaml` + `metadata.yaml` |
+
+`CLAUDE.md` 中的 `<!-- AUTO:xxx -->...<!-- /AUTO:xxx -->` 标记区块由脚本自动填充，手写部分不受影响。
 
 ---
 

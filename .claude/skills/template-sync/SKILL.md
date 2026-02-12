@@ -120,6 +120,14 @@ mkdir -p templates/{template-id}/docs/plans
   3. 编写 OVERVIEW.md 的 Workflow 章节
 ```
 
+#### 8. 更新项目索引
+
+初始化完成后，运行索引生成脚本将新模板注册到 CLAUDE.md：
+
+```bash
+node tools/gen-index.js
+```
+
 ---
 
 ### Action: sync
@@ -224,6 +232,14 @@ manifest.yaml:
   — 其余条目无变化
 
 ⚠ 提醒: 请检查 OVERVIEW.md 的 Workflow 章节是否需要更新
+```
+
+#### 7. 更新项目索引
+
+同步完成后，运行索引生成脚本更新 CLAUDE.md 中的 AUTO 区块：
+
+```bash
+node tools/gen-index.js
 ```
 
 ---
