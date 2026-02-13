@@ -37,11 +37,12 @@
 | systematic-debugging | `.claude/skills/systematic-debugging/` | 四阶段系统调试：根因调查 → 模式分析 → 假设验证 → 实施修复。≥3 次失败触发架构讨论 | /bugfix |
 | verification-loop | `.claude/skills/verification-loop/` | 8 阶段验证：Build → Types → Lint → Unit → Integration → E2E → Security → Diff。支持 --full 扩展 | /verify |
 
-### Commands (11)
+### Commands (12)
 
 | 命令 | 文件 | 场景 | 说明 |
 |------|------|------|------|
 | /feature | `.claude/commands/feature.md` | 新功能 | 全管线编排：clarify → architecture → plan → 逐 Story TDD → verify → PR |
+| /roadmap | `.claude/commands/roadmap.md` | 项目路线图 | Spec vs Code Gap Analysis → 生成/更新路线图，/plan 的上游 |
 | /clarify | `.claude/commands/clarify.md` | 需求澄清 | 苏格拉底式提问 → PRD，含复杂度评估 |
 | /architecture | `.claude/commands/architecture.md` | 架构设计 | 交互式生成 Spec 四层级体系（含目录初始化） |
 | /plan | `.claude/commands/plan.md` | 规划 | 调用 planner agent，Quick/Full 双模式，Spec 感知 |
@@ -93,6 +94,7 @@
 ```
 /feature [功能描述]
   │
+  ├─ Phase 0:   /roadmap        → 路线图（可选，跨迭代规划）
   ├─ Phase 1:   /clarify        → PRD（可跳过）
   ├─ Phase 1.5: /architecture   → Spec 四层级（可选，中大型项目）
   ├─ Phase 2:   /plan           → Epic → Story(AC)（planner agent）
@@ -127,6 +129,7 @@ Commands (用户入口)          Skills (执行引擎)           Agents (专业�
 /bugfix ──────────────────→ systematic-debugging
 /verify ──────────────────→ verification-loop
 /review ──────────────────────────────────────────────→ code-reviewer
+/roadmap                    (独立命令，/plan 上游)
 /decide                     (独立命令)
 /pivot                      (独立命令)
 /spike                      (独立命令)
@@ -144,6 +147,7 @@ Rules 是 always-on 的硬约束，始终生效：
 ### Spec 集成点
 
 当 `spec/` 目录存在时，以下组件变为 Spec-aware：
+- **/roadmap** — 以 Spec 为 Target State 进行 Gap Analysis
 - **planner** — 以 Spec 为唯一真理源进行规划
 - **code-reviewer** — 增加 Domain/Contract/Flow Spec 合规检查
 - **story-execution** — AC 与 Spec 规则一致性验证

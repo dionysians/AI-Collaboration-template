@@ -44,7 +44,7 @@ AI 编程工具配置模板管理项目。收集、分析各类 AI 编程框架�
 | Hooks 配置（5 hooks） | `.claude/settings.json` | - |
 | 基础规范（4 rules） | `.claude/rules/` | coding-style, testing, security, git-workflow |
 | 工作流引擎（3 skills） | `.claude/skills/` | story-execution, systematic-debugging, verification-loop |
-| 用户命令（11 commands） | `.claude/commands/` | feature, clarify, architecture, plan, review, verify, bugfix, hotfix, spike, decide, pivot |
+| 用户命令（12 commands） | `.claude/commands/` | feature, roadmap, clarify, architecture, plan, review, verify, bugfix, hotfix, spike, decide, pivot |
 | 专业化 Agent（2 agents） | `.claude/agents/` | planner, code-reviewer |
 <!-- /AUTO:template-components:general-development -->
 

@@ -27,6 +27,7 @@
 
 | 命令 | 说明 |
 |------|------|
+| `/roadmap` | Spec vs Code Gap Analysis → 生成/更新项目路线图 |
 | `/clarify` | 需求澄清 → 输出 PRD（苏格拉底式提问） |
 | `/architecture` | 交互式生成 Spec 四层级体系（含目录初始化） |
 | `/plan` | 调用 planner 创建实现计划（PRD + Spec 感知） |
@@ -41,6 +42,7 @@
 
 ```
 /feature
+  Phase 0:   /roadmap → 路线图（可选，跨迭代规划）
   Phase 1:   /clarify → PRD（可跳过，如已有 PRD）
   Phase 1.5: /architecture → Spec（可选，中大型项目）
   Phase 2:   /plan → Epic/Story/AC
