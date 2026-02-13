@@ -18,7 +18,7 @@
 
 | 命令 | 场景 | 说明 |
 |------|------|------|
-| `/feature` | 新功能 | clarify(PRD) → architecture(可选) → plan → 逐 Story TDD → review → verify → PR |
+| `/feature` | 新功能 | Full/Agile 模式，支持 Agent Team 并行。clarify → architecture → plan → Story 执行 → verify → PR |
 | `/bugfix` | Bug 修复 | 复现 → 系统调试 → 回归测试 → 修复 → verify |
 | `/hotfix` | 紧急修复 | 直接修复 → 补测试 → verify → 立即提交 |
 | `/spike` | 探索验证 | 自由探索 → 可行性报告（无测试要求） |
@@ -32,25 +32,27 @@
 | `/architecture` | 交互式生成 Spec 四层级体系（含技术决策、实现约定、架构验证） |
 | `/plan` | 结构化规划（4 阶段 BMAD 流程，PRD + Spec 感知） |
 | `/review` | 两阶段代码审查（Spec-aware） |
-| `/verify` | 完整验证循环（8 阶段） |
+| `/verify` | 验证循环（`--lite` 4 项 / 默认 8 阶段 / `--full` 扩展） |
 | `/decide` | 记录架构决策 ADR（存放在 spec/adr/） |
 | `/pivot` | 方向调整 |
 
 ## 规划管线
 
-`/feature` 是全管线编排器，内部阶段：
+`/feature` 是全管线编排器，支持 **Full/Agile** 执行强度和 **Agent Team/Serial** 基础设施模式：
 
 ```
 /feature
-  Phase 0:   /roadmap → 路线图（可选，跨迭代规划）
-  Phase 1:   /clarify → PRD（可跳过，如已有 PRD）
+  Phase 0:   上下文检查 + Full/Agile 选择 + Agent Team 检测
+  Phase 1:   /clarify → PRD（可跳过）
   Phase 1.5: /architecture → Spec（可选，中大型项目）
   Phase 2:   /plan → Epic/Story/AC
-  Phase 3:   逐 Story TDD 执行
-  Phase 4:   PR
+  Phase 3:   Story 执行（Agent Team 时可并行）
+      Full:  TDD → AC 验证 → code-review → commit
+      Agile: TDD → AC 验证 → commit（跳过 review）
+  Phase 4:   验证（Full: 8 阶段 / Agile: --lite 4 项）→ PR
 ```
 
-各命令（`/clarify`, `/architecture`, `/plan`）也可独立使用。
+各命令（`/clarify`, `/architecture`, `/plan`, `/verify`）也可独立使用。
 
 ## Spec 体系（可选）
 
@@ -93,7 +95,9 @@
 | Agent | 说明 | 模型 |
 |-------|------|------|
 | planner | 规划专家（BMAD 4 阶段，双模式，Spec 感知） | opus |
+| developer | Story 执行引擎（TDD，支持 Full/Agile + File Ownership） | opus |
 | code-reviewer | 两阶段代码审查（Spec-aware） | - |
+| verifier | 验证专家（`--lite`/默认/`--full` 三级验证） | - |
 
 ## Hooks（自动触发）
 

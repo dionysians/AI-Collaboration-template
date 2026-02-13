@@ -105,22 +105,17 @@ Command (薄编排层)           Agent/Skill (胖执行层)
 
 ## TODO — 按此模式重构
 
+> **注**: 以下项目由 [Decision 003](003-agent-team-dual-mode.md) 统一处理。
+
 ### 高优先级
 
-- [ ] **Phase 11.1: /clarify 重构** — 拆为薄 clarify.md (~80 行) + clarify agent (~700 行)
-  - clarify.md: Phase 0 上下文检查（检测已有 PRD、Resume）+ 模式判断 + 调用 agent + 展示 PRD 摘要
-  - clarify agent: 全部苏格拉底式提问逻辑、Phase 1-4、域感知规则、自验证 checklist
-  - 状态媒介: `docs/plans/prd-*.md`（已有 frontmatter）
-
-- [ ] **Phase 11.2: /architecture 重构** — 拆为薄 architecture.md (~80 行) + architect agent (~300 行)
-  - architecture.md: 上下文检查（检测已有 Spec）+ 调用 agent + 展示 Spec 摘要
-  - architect agent: 全部 8-step Spec 生成逻辑、技术决策、实现约定、架构验证
-  - 状态媒介: `spec/` 目录 + `.arch-progress.md`
+- [x] **clarify / architecture** — Decision 003 决定：交互式 Command 不拆 sub-agent（sub-agent 无法对话）。Agent Team 模式下作为 Teammate 运行实现上下文隔离。降级模式下保持胖 Command。
+- [x] **story-execution → developer agent** — 由 Decision 003 实现。Skill 转为 redirect stub，实际工作由 developer sub-agent 在隔离上下文执行。
+- [x] **verification-loop → verifier agent** — 由 Decision 003 实现。同上。
 
 ### 低优先级
 
-- [ ] **story-execution 评估** — 如果后续增强超过 300 行，考虑拆为薄 Skill + executor agent
-- [ ] **feature.md 评估** — 确认编排器是否需要感知更多文档状态（当前 67 行，足够薄）
+- [x] **feature.md 升级** — 由 Decision 003 重写为双模式编排器（Agent Team/Serial × Full/Agile）。
 
 ## 影响
 

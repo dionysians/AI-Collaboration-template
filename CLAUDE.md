@@ -29,7 +29,7 @@ AI 编程工具配置模板管理项目。收集、分析各类 AI 编程框架�
 | 模板 | 版本 | 说明 |
 |------|------|------|
 | `example-minimal` | v1.0.0 | 示例：最小化的 Claude Code 配置模板 |
-| `general-development` | v1.2.0 | 通用项目开发模板，融合了三大框架的最佳实践 |
+| `general-development` | v1.3.0 | 通用项目开发模板，融合了三大框架的最佳实践 |
 <!-- /AUTO:templates -->
 
 ### general-development 组件清单
@@ -43,9 +43,9 @@ AI 编程工具配置模板管理项目。收集、分析各类 AI 编程框架�
 | 模板设计决策文档 | `.aiwork/docs/decisions/` | - |
 | Hooks 配置（5 hooks） | `.claude/settings.json` | - |
 | 基础规范（4 rules） | `.claude/rules/` | coding-style, testing, security, git-workflow |
-| 工作流引擎（3 skills） | `.claude/skills/` | story-execution, systematic-debugging, verification-loop |
+| 行为模式（1 skill） | `.claude/skills/` | systematic-debugging |
 | 用户命令（12 commands） | `.claude/commands/` | feature, roadmap, clarify, architecture, plan, review, verify, bugfix, hotfix, spike, decide, pivot |
-| 专业化 Agent（2 agents） | `.claude/agents/` | planner, code-reviewer |
+| 专业化 Agent（4 agents） | `.claude/agents/` | planner, developer, code-reviewer, verifier |
 <!-- /AUTO:template-components:general-development -->
 
 ### general-development 设计来源
