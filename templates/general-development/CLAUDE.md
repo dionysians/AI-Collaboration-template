@@ -29,7 +29,7 @@
 |------|------|
 | `/roadmap` | Spec vs Code Gap Analysis → 生成/更新项目路线图 |
 | `/clarify` | 需求澄清 → 输出 PRD（苏格拉底式提问） |
-| `/architecture` | 交互式生成 Spec 四层级体系（含目录初始化） |
+| `/architecture` | 交互式生成 Spec 四层级体系（含技术决策、实现约定、架构验证） |
 | `/plan` | 调用 planner 创建实现计划（PRD + Spec 感知） |
 | `/review` | 两阶段代码审查（Spec-aware） |
 | `/verify` | 完整验证循环（8 阶段） |
@@ -58,7 +58,7 @@
 
 | 层级 | 位置 | 说明 |
 |------|------|------|
-| Project Spec | `spec/0_project/` | 系统边界、模块划分、全局规则 |
+| Project Spec | `spec/0_project/` | 系统边界、模块划分、技术栈、项目结构、实现约定、全局规则 |
 | Domain Spec | `spec/1_domain/` | 状态机、业务规则、约束 |
 | Contract Spec | `spec/2_contract/v1/` | API / Event / Schema 契约 |
 | Flow Spec | `spec/3_flow/iteration_01/` | Given/When/Then 场景 |

@@ -17,7 +17,7 @@ Level 4 — Flow Spec         → 定义流程（Scenario / Story / Test Driver�
 
 | 层级 | 内容 | AI 用途 | 输出物 |
 |------|------|---------|--------|
-| Project Spec | 系统边界、模块划分、全局规则 | 理解系统结构 | 架构 scaffolding、目录结构 |
+| Project Spec | 系统边界、模块划分、技术栈、项目结构、实现约定、全局规则 | 理解系统结构与约定 | 架构 scaffolding、目录结构、命名约定 |
 | Domain Spec | 状态机、业务规则、约束 | 理解行为规则 | service/domain 逻辑、校验 |
 | Contract Spec | API / Event / Schema 契约 | 技术契约 | controller、router、SDK |
 | Flow Spec | Given/When/Then 场景 | 场景、状态变化 | 自动化测试、E2E 流程 |
@@ -84,13 +84,14 @@ spec/
 - API 契约 MUST 使用 `.yaml`
 - Contract 版本目录: `v1`, `v2`, `v3`（无 patch 号）
 - Flow 迭代目录: `iteration_XX`（两位数字）
+- `spec/.arch-progress.md` 为 `/architecture` 的临时进度文件，完成后自动删除
 
 ## 与工作流的集成
 
 | 命令 | Spec 关系 |
 |------|-----------|
 | `/clarify` | 输出 PRD，评估是否需要 Spec 体系 |
-| `/architecture` | 交互式生成/更新 Spec（含目录初始化） |
+| `/architecture` | 交互式生成/更新 Spec（含技术决策、实现约定、架构验证） |
 | `/plan` | 读取 Spec 作为唯一真理源 |
 | `/review` | Spec-aware 审查（检查实现与 Spec 一致性） |
 | `/decide` | ADR 存放在 `spec/adr/`，提醒更新 Spec |

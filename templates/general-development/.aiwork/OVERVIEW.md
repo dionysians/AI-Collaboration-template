@@ -44,7 +44,7 @@
 | /feature | `.claude/commands/feature.md` | 新功能 | 全管线编排：clarify → architecture → plan → 逐 Story TDD → verify → PR |
 | /roadmap | `.claude/commands/roadmap.md` | 项目路线图 | Spec vs Code Gap Analysis → 生成/更新路线图，/plan 的上游 |
 | /clarify | `.claude/commands/clarify.md` | 需求澄清 | 苏格拉底式提问 → PRD，含复杂度评估 |
-| /architecture | `.claude/commands/architecture.md` | 架构设计 | 交互式生成 Spec 四层级体系（含目录初始化） |
+| /architecture | `.claude/commands/architecture.md` | 架构设计 | 交互式生成 Spec 四层级体系（含技术决策、实现约定、架构验证） |
 | /plan | `.claude/commands/plan.md` | 规划 | 调用 planner agent，Quick/Full 双模式，Spec 感知 |
 | /review | `.claude/commands/review.md` | 代码审查 | 调用 code-reviewer agent，两阶段（规格合规 + 代码质量） |
 | /verify | `.claude/commands/verify.md` | 验证 | 触发 verification-loop skill，8 阶段验证 |
@@ -79,7 +79,7 @@
 
 | 层级 | 目录 | 说明 |
 |------|------|------|
-| Project Spec | `spec/0_project/` | 系统边界、模块划分、全局规则 |
+| Project Spec | `spec/0_project/` | 系统边界、模块划分、技术栈、项目结构、实现约定、全局规则 |
 | Domain Spec | `spec/1_domain/` | 状态机、业务规则、约束 |
 | Contract Spec | `spec/2_contract/` | API / Event / Schema 契约 |
 | Flow Spec | `spec/3_flow/` | Given/When/Then 场景 |
