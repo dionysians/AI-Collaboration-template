@@ -33,11 +33,11 @@ Phase 4:   交付    → PR
 
 ### Phase 2: 规划
 
-- 调用 planner agent（Full 模式）
-- 自动读取 PRD + Spec（如有），以 Spec 为唯一真理源
-- 输出 Epic → Story(AC) 结构
-- 写入 `docs/plans/YYYY-MM-DD-<feature>.md`
-- **等待用户确认后再继续**
+- 执行 `/plan`（Full 模式）
+- planner agent 自动读取 PRD + Spec（如有），以 Spec 为唯一真理源
+- 4 阶段结构化规划：需求提取 → Epic 设计 → Story 生成 → 验证
+- 输出 Epic → Story(AC) 结构，写入 `docs/plans/YYYY-MM-DD-<feature>.md`
+- **等待用户查看计划文件确认后再继续**
 
 ### Phase 3: 逐 Story 执行
 

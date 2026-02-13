@@ -98,7 +98,7 @@ includes:
       - name: architecture
         description: 交互式生成 Spec 四层级体系
       - name: plan
-        description: 调用 planner 创建实现计划
+        description: 结构化规划（4 阶段 BMAD 流程）
       - name: review
         description: 两阶段代码审查
       - name: verify
@@ -117,7 +117,7 @@ includes:
     description: 专业化 Agent（2 agents）
     items:
       - name: planner
-        description: 规划专家（Quick/Full 双模式，Spec 感知）
+        description: 规划专家（BMAD 4 阶段，双模式，Spec 感知）
       - name: code-reviewer
         description: 两阶段代码审查（规格合规 + 代码质量）
   # 以下目录由命令按需创建（不随模板安装）：

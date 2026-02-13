@@ -30,7 +30,7 @@
 | `/roadmap` | Spec vs Code Gap Analysis → 生成/更新项目路线图 |
 | `/clarify` | 需求澄清 → 输出 PRD（苏格拉底式提问） |
 | `/architecture` | 交互式生成 Spec 四层级体系（含技术决策、实现约定、架构验证） |
-| `/plan` | 调用 planner 创建实现计划（PRD + Spec 感知） |
+| `/plan` | 结构化规划（4 阶段 BMAD 流程，PRD + Spec 感知） |
 | `/review` | 两阶段代码审查（Spec-aware） |
 | `/verify` | 完整验证循环（8 阶段） |
 | `/decide` | 记录架构决策 ADR（存放在 spec/adr/） |
@@ -92,7 +92,7 @@
 
 | Agent | 说明 | 模型 |
 |-------|------|------|
-| planner | 规划专家（只读，双模式，Spec 感知） | opus |
+| planner | 规划专家（BMAD 4 阶段，双模式，Spec 感知） | opus |
 | code-reviewer | 两阶段代码审查（Spec-aware） | - |
 
 ## Hooks（自动触发）

@@ -45,7 +45,7 @@
 | /roadmap | `.claude/commands/roadmap.md` | 项目路线图 | Spec vs Code Gap Analysis → 生成/更新路线图，/plan 的上游 |
 | /clarify | `.claude/commands/clarify.md` | 需求澄清 | 苏格拉底式提问 → PRD，含复杂度评估 |
 | /architecture | `.claude/commands/architecture.md` | 架构设计 | 交互式生成 Spec 四层级体系（含技术决策、实现约定、架构验证） |
-| /plan | `.claude/commands/plan.md` | 规划 | 调用 planner agent，Quick/Full 双模式，Spec 感知 |
+| /plan | `.claude/commands/plan.md` | 规划 | 结构化规划（4 阶段 BMAD 流程），Quick/Full 双模式，Spec 感知 |
 | /review | `.claude/commands/review.md` | 代码审查 | 调用 code-reviewer agent，两阶段（规格合规 + 代码质量） |
 | /verify | `.claude/commands/verify.md` | 验证 | 触发 verification-loop skill，8 阶段验证 |
 | /bugfix | `.claude/commands/bugfix.md` | Bug 修复 | 复现 → systematic-debugging → 回归测试 → verify |
@@ -58,7 +58,7 @@
 
 | Agent | 文件 | 说明 | 模型 |
 |-------|------|------|------|
-| planner | `.claude/agents/planner.md` | 规划专家：Quick/Full 双模式，Spec 感知，输出 Epic → Story(AC) | opus |
+| planner | `.claude/agents/planner.md` | 规划专家：BMAD 4 阶段（需求提取→Epic 设计→Story 生成→验证），Spec 感知 | opus |
 | code-reviewer | `.claude/agents/code-reviewer.md` | 代码审查：两阶段（规格合规 + 代码质量 CRITICAL/HIGH/MEDIUM/LOW） | - |
 
 ### Hooks (5)
@@ -97,7 +97,7 @@
   ├─ Phase 0:   /roadmap        → 路线图（可选，跨迭代规划）
   ├─ Phase 1:   /clarify        → PRD（可跳过）
   ├─ Phase 1.5: /architecture   → Spec 四层级（可选，中大型项目）
-  ├─ Phase 2:   /plan           → Epic → Story(AC)（planner agent）
+  ├─ Phase 2:   /plan           → Epic → Story(AC)（planner agent, BMAD 4 阶段）
   ├─ Phase 3:   story-execution → 逐 Story TDD
   │               ├─ 动态 Task 拆解
   │               ├─ RED → GREEN → REFACTOR
@@ -148,7 +148,7 @@ Rules 是 always-on 的硬约束，始终生效：
 
 当 `spec/` 目录存在时，以下组件变为 Spec-aware：
 - **/roadmap** — 以 Spec 为 Target State 进行 Gap Analysis
-- **planner** — 以 Spec 为唯一真理源进行规划
+- **planner** — 以 Spec 为唯一真理源，BMAD 4 阶段结构化规划
 - **code-reviewer** — 增加 Domain/Contract/Flow Spec 合规检查
 - **story-execution** — AC 与 Spec 规则一致性验证
 - **/architecture** — 生成/更新 Spec 四层级体系
