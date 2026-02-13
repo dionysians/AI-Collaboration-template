@@ -52,6 +52,12 @@ graph TB
 
 - 依赖 `{other}-domain`: [说明]
 
+## Domain-Specific Patterns
+
+<!-- 可选。仅当此 Domain 有超出 Project Spec 全局约定的特殊规范时填写 -->
+
+- [模式描述: 例如 ID 格式、金额表示、状态变更的唯一入口]
+
 ## Evolution Log
 
 - yyyy-mm-dd: [新增/修改/移除] [规则/状态/字段]。

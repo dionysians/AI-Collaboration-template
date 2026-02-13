@@ -16,6 +16,14 @@
 - `{name}-domain` — [职责描述]
 - `{name}-domain` — [职责描述]
 
+## Technology Stack
+
+<!-- 技术选型摘要。重大决策关联 ADR（spec/adr/），简单选择不需要 ADR -->
+
+| Category | Choice | Version | ADR |
+|----------|--------|---------|-----|
+| [分类] | [选择] | [版本] | [ADR-NNNN 或 -] |
+
 ## Architecture Diagrams (C4 Model)
 
 ### System Context Diagram
@@ -46,6 +54,53 @@ graph TB
 
 - **{Entity}** — [描述]
 - **{Entity}** — [描述]
+
+## Project Structure
+
+<!-- 基于技术栈和 Bounded Contexts 生成的具体目录结构 -->
+
+```
+[project-root]/
+├── src/
+│   ├── ...
+├── spec/
+├── docs/plans/
+└── ...
+```
+
+### Structure Rules
+
+- [每个 Bounded Context 对应 features/ 下一个目录]
+- [共享代码的存放规则]
+- [测试文件的组织方式]
+
+## Implementation Patterns
+
+<!-- 全局约定。领域特有的约定放在各自的 Domain Spec 中 -->
+
+### Naming Conventions
+
+| Element | Pattern | Example |
+|---------|---------|---------|
+| [元素类型] | [命名模式] | [示例] |
+
+### Structural Patterns
+
+- **模块组织**: [描述]
+- **入口模式**: [描述]
+- **错误处理**: [描述]
+- **配置管理**: [描述]
+
+### Communication Patterns
+
+- **模块间通信**: [描述]
+- **外部服务调用**: [描述]
+- **数据访问**: [描述]
+
+### Anti-Patterns（明确禁止）
+
+- [禁止模式 1]
+- [禁止模式 2]
 
 ## Global Rules & Invariants
 
