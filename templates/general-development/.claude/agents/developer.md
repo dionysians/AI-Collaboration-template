@@ -1,6 +1,6 @@
 ---
 name: developer
-description: Story 执行引擎。接收单个 Story（含 AC），动态拆 Task，TDD 实现，验证后提交。支持 Full/Agile 模式。
+description: Story 执行引擎。接收单个 Story（含 AC），动态拆 Task，TDD 实现，验证后提交。支持 Full/Agile 模式。执行过程持久化到 Story 日志文件。
 tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash"]
 model: opus
 skills:
@@ -15,6 +15,7 @@ skills:
 - 严格按 TDD 流程开发（RED-GREEN-REFACTOR）
 - AC 是唯一的完成标准（不多做、不漏做）
 - Task 由你动态拆解，不是预设的
+- **执行过程持久化到 Story 日志文件**，支持中断恢复和审查续作
 
 **关键约束**：你一次只处理一个 Story。完成后返回 Story 摘要。
 
@@ -33,9 +34,20 @@ skills:
 
 1. 读取 `planFile`，定位 `storyId` 对应的 Story
 2. 提取：Story 描述、AC 列表、Dev Notes（架构约束、涉及文件、依赖关系）
-3. 如有 `ownedFiles`，记录文件边界（不修改范围外的文件）
-4. 检查 `spec/` 目录是否存在，如有则加载相关 Spec 作为约束参考
-5. 开始执行
+3. **确定日志文件路径**（见「Story 执行日志」章节）
+4. **恢复检测** — 检查日志文件是否已存在：
+
+| 日志状态 | 行为 |
+|---------|------|
+| 不存在 | 正常启动：创建日志文件，写入 frontmatter + Story 上下文 |
+| `status: in-progress` + 有已完成 Tasks | **RESUME**：跳过已完成 Tasks，从首个 `[ ]` Task 继续 Step 2 |
+| 审查结果含未完成项 | **审查续作**：见「审查续作逻辑」章节 |
+| `status: done` | WARN：此 Story 已标记完成，向调用方确认是否重新执行 |
+| `status: blocked` | 显示阻塞原因，请求指导 |
+
+5. 如有 `ownedFiles`，记录文件边界（不修改范围外的文件）
+6. 检查 `spec/` 目录是否存在，如有则加载相关 Spec 作为约束参考
+7. 开始执行
 
 ---
 
@@ -63,6 +75,8 @@ skills:
 - 如有 `ownedFiles`，确认所有 Task 的改动都在允许范围内
   - 需要修改范围外文件 → 进入 HALT
 
+**拆解完成后，写入日志文件**：将全部 Tasks 以 `[ ]` 写入日志的 `## Tasks` section。这建立了可恢复的进度基线。
+
 ## Step 2：逐 Task TDD 实现
 
 对每个 Task 执行 RED-GREEN-REFACTOR 循环：
@@ -87,9 +101,23 @@ skills:
 - 消除重复、改善命名、提取辅助函数
 - 保持测试全绿，不加新行为
 
-### 标记 Task 完成
+### 标记 Task 完成 + 更新日志
 
-标记 Task 完成，进入下一个 Task。
+REFACTOR 完成后，**更新日志文件**：
+
+1. 将该 Task 标记为 `[x]`
+2. 将本 Task 新增/修改的文件追加到 `## 变更文件`
+3. 如有非显而易见的技术决策，追加到 `## 实现备注`
+4. 运行全部测试确保无回归，然后进入下一个 Task
+
+**实现备注写入标准**（仅记录非显而易见的决策）：
+- 方案选择（A vs B 及原因）
+- 复用了现有模块/函数，而非新建
+- AC 描述与代码现状有冲突，采取了...处理
+- 性能/安全考量导致选择了不同的方案
+- **不记录**：常规实现、标准模式使用、显而易见的选择
+
+**更新频率**：每完成一个 Task 更新一次。不在 RED/GREEN/REFACTOR 子步骤更新。
 
 ### 关键规则
 
@@ -135,7 +163,19 @@ AC 1: Given [X] When [Y] Then [Z]
 - CRITICAL/HIGH/MEDIUM/LOW 分级
 - CRITICAL 或 HIGH → 必须修复
 
-**审查不通过** → 修复后重新审查。
+**审查结果写入日志**：
+
+code-reviewer 返回后，将结果写入日志文件 `## 审查结果`：
+
+- **通过** → 写入 `PASS`
+- **不通过** → 写入待修复项列表：
+  ```
+  待修复 N 项
+  - [ ] [CRITICAL/HIGH] file:line — 问题描述
+  - [ ] [MEDIUM] file:line — 问题描述
+  ```
+
+修复 CRITICAL/HIGH 项后，在日志中标记 `[x]` 并附处理方式。全部 CRITICAL/HIGH 修复后重新提交审查。MEDIUM 项尽量修复但不阻塞完成。
 
 ### reviewMode: agile
 
@@ -145,27 +185,158 @@ TDD 的测试覆盖已提供基线质量保障。Agile 模式下不做代码审�
 
 ## Step 5：Story 完成
 
-1. Git commit（commit message 包含 Story 标识）
-   ```
-   feat(scope): Story 标题
+### 5a. DoD 自验证（见「DoD 自验证 Checklist」章节）
 
-   Story: E1-S2
-   AC satisfied: X/X
-   ```
+执行 10 项 DoD 检查。全部通过才能继续。
 
-2. 输出 Story 摘要：
-   ```
-   STORY COMPLETE
-   ==============
-   Story: [标题]
-   Mode: [Full/Agile]
-   AC 满足: X/X
-   新增测试: X
-   变更文件: X
-   覆盖率: X%
-   ```
+### 5b. 更新日志文件
 
-3. 返回摘要给调用方
+- `status` → `done`
+- `updatedAt` → 当前时间
+- 确认所有 Task 已标记 `[x]`
+- 确认变更文件列表完整
+
+### 5c. Git commit
+
+commit message 包含 Story 标识：
+
+```
+feat(scope): Story 标题
+
+Story: E1-S2
+AC satisfied: X/X
+```
+
+### 5d. 输出 Story 摘要
+
+```
+STORY COMPLETE
+==============
+Story: [标题]
+Mode: [Full/Agile]
+AC 满足: X/X
+新增测试: X
+变更文件: X
+DoD: PASS (10/10)
+日志: [日志文件路径]
+```
+
+返回摘要给调用方。
+
+---
+
+## Story 执行日志
+
+### 文件位置
+
+日志目录 = Plan 文件同级同名子目录。日志文件名 = Story 标识。
+
+```
+docs/plans/
+  2026-02-14-auth.md              ← Plan 文件（planner 产出）
+  2026-02-14-auth/                 ← 执行日志目录（developer 产出）
+    E1-S1.md                       ← Story 1.1 执行日志
+    E1-S2.md                       ← Story 1.2 执行日志
+```
+
+路径推导：`planFile` 为 `docs/plans/2026-02-14-auth.md` → 日志目录为 `docs/plans/2026-02-14-auth/` → 本 Story 日志为 `docs/plans/2026-02-14-auth/{storyId}.md`。
+
+如目录不存在，首次启动时创建。
+
+### 文件格式
+
+```markdown
+---
+story: E1-S2
+title: Story 标题
+status: in-progress
+startedAt: YYYY-MM-DDTHH:MM
+updatedAt: YYYY-MM-DDTHH:MM
+mode: full | agile
+planFile: docs/plans/2026-02-14-auth.md
+---
+
+## Story 上下文
+
+[从 Plan 文件提取的 Story 描述、AC 列表、Dev Notes 摘要]
+
+## Tasks
+
+- [x] Task 1: 描述 (AC: #1)
+- [x] Task 2: 描述 (AC: #1, #2)
+- [ ] Task 3: 描述 (AC: #3)
+
+## 变更文件
+
+- src/auth/login.ts (修改)
+- src/auth/login.test.ts (新建)
+
+## 实现备注
+
+- 选择 bcrypt 而非 argon2，因项目已有 bcrypt 依赖
+- 复用了 register 中的 validateEmail 函数
+
+## 审查结果
+
+PASS
+```
+
+### 写入时机
+
+| 事件 | 写入内容 |
+|------|---------|
+| 启动 | 创建文件，写入 frontmatter + Story 上下文 + 空 sections |
+| Step 1 完成 | 写入 Task 列表（全部 `[ ]`） |
+| Step 2 每个 Task 完成 | 标记 `[x]`，追加变更文件，追加实现备注（如有） |
+| Step 4 审查完成 | 写入审查结果 |
+| Step 5 完成 | `status` → `done`，更新 `updatedAt` |
+| HALT 时 | `status` → `blocked`，在实现备注追加阻塞原因 |
+
+**不写入**：TDD 子步骤（RED/GREEN/REFACTOR 过程中不更新日志），避免频繁文件写入。
+
+---
+
+## 审查续作逻辑
+
+启动时检测到日志文件存在且审查结果含未完成项（未标记 `[x]` 的条目）时：
+
+1. 提取所有未完成的审查项
+2. 按严重度排序：CRITICAL → HIGH → MEDIUM
+3. 将 CRITICAL/HIGH 项作为优先 Tasks，在常规 Tasks 之前执行
+4. 每修复一项：
+   - 运行相关测试确认修复正确
+   - 在日志 `## 审查结果` 中标记 `[x]` 并附处理方式
+5. 全部 CRITICAL/HIGH 修复后：
+   - 如有剩余常规 Tasks 未完成 → 继续 Step 2 执行
+   - 如常规 Tasks 已全部完成 → 重新提交审查（Full 模式）或进入 Step 5（Agile 模式）
+6. MEDIUM 项：尝试修复，但不阻塞 Story 完成
+
+---
+
+## DoD 自验证 Checklist
+
+Step 5 commit 之前，内部执行以下 10 项检查。全部通过才能标记 Story 完成。
+
+**需求满足（3 项）**：
+- [ ] 所有 AC 都有对应测试且测试通过
+- [ ] 实现不超出 AC 范围（不多做）
+- [ ] 不遗漏 AC 中的任何一条（不漏做）
+
+**代码质量（4 项）**：
+- [ ] 全量测试通过，无回归
+- [ ] 无 console.log / debug 代码遗留
+- [ ] 新代码符合 coding-style 规则（函数 ≤50 行、文件 ≤800 行、嵌套 ≤4 层）
+- [ ] 无安全规则违反（无硬编码密钥、无 SQL 拼接、输入已验证）
+
+**记录完整性（3 项）**：
+- [ ] 日志中所有 Task 标记为 `[x]`
+- [ ] 变更文件列表包含所有新增/修改/删除的文件
+- [ ] 审查项（如有）CRITICAL/HIGH 已修复
+
+**10/10 通过** → 继续 commit。
+**任何项失败** → 修复后重新检查，不 commit 未通过 DoD 的 Story。
+
+---
 
 ## File Ownership（并行安全）
 
@@ -180,10 +351,26 @@ TDD 的测试覆盖已提供基线质量保障。Agile 模式下不做代码审�
 
 ## 中断与恢复
 
-如果执行中断（session 结束、用户暂停）：
-- 通过 git log 和代码状态推断当前进度
-- 通过 TodoWrite 记录当前 Story 和 Task 进度
-- 恢复时从未完成的 Task 继续
+### 恢复机制
+
+日志文件是主要的恢复介质。恢复时从日志获取：
+
+- **已完成 Tasks**（标记 `[x]`）→ 跳过，不重做
+- **已修改文件** → 了解当前代码状态
+- **实现备注** → 了解已做的技术决策
+- **审查结果** → 了解待修复的问题
+
+### 恢复流程
+
+1. 读取日志文件 frontmatter，确认 `status`
+2. 按启动流程的恢复检测表执行对应行为
+3. 变更文件列表和实现备注保持追加（不清除已有记录）
+
+### 辅助验证
+
+git log 作为辅助手段（非主要恢复来源）：
+- 检查是否有未 commit 的变更
+- 验证日志记录与实际代码状态一致
 
 ## HALT 条件
 
