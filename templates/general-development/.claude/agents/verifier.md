@@ -105,6 +105,24 @@ go test ./... -cover 2>&1 | tail -50
 
 目标覆盖率：**≥ 80%**
 
+## 阶段 4.5：测试质量扫描
+
+用 Grep 扫描本次变更涉及的测试文件，检查以下质量问题：
+
+**FAIL 级别**（必须修复）：
+- 空测试体或无断言的测试（test body 中无 `expect`/`assert`/`should`）
+- Placeholder 断言（`expect(true)`、`expect(1).toBe(1)` 等无意义断言）
+- 硬等待（`sleep`、`setTimeout`、`waitForTimeout`、`time.sleep`、`Thread.sleep`）
+
+**WARN 级别**（建议修复）：
+- 单个测试文件超过 300 行
+- 测试中使用 `if`/`else`/`switch` 控制流（非确定性风险）
+- 测试中使用 `try`/`catch` 吞掉异常（隐藏失败）
+
+```
+Test Quality:  [PASS/FAIL/WARN] (X issues)
+```
+
 ---
 
 **`--lite` 模式到此结束**，跳转至报告生成。
@@ -192,6 +210,7 @@ Build:        [PASS/FAIL]
 Types:        [PASS/FAIL] (X errors)
 Lint:         [PASS/FAIL] (X warnings)
 Unit Tests:   [PASS/FAIL] (X/Y passed, Z% coverage)
+Test Quality: [PASS/FAIL/WARN] (X issues)
 Integration:  [PASS/FAIL/WARN/N/A]
 E2E Core:     [PASS/FAIL/WARN/N/A]
 Security:     [PASS/FAIL] (X issues)
@@ -216,6 +235,7 @@ Build:        [PASS/FAIL]
 Types:        [PASS/FAIL] (X errors)
 Lint:         [PASS/FAIL] (X warnings)
 Unit Tests:   [PASS/FAIL] (X/Y passed, Z% coverage)
+Test Quality: [PASS/FAIL/WARN] (X issues)
 
 Overall:      [READY/NOT READY] for PR
 
